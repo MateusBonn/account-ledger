@@ -1,5 +1,6 @@
 package com.ebanx.ledger.adapters.inbound.controller;
 
+import com.ebanx.ledger.adapters.outbound.repository.InMemoryAccountRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/balance")
 public class BalanceController {
 
-  @GetMapping("/balance")
+  private final InMemoryAccountRepository repository;
+
+  public BalanceController(InMemoryAccountRepository repository) {
+    this.repository = repository;
+  }
+
+  @GetMapping
   public ResponseEntity<Integer> getBalance(@RequestParam("account_id") String accountId) {
-    // Todo: Substituir por chamada ao Service/Store na Fase 3.
-    // Retorno fixo 404 com body 0 para garantir que a rota existe e falha graciosamente.
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(0);
+    return repository.findById(accountId)
+      .map(account -> ResponseEntity.ok(account.balance()))
+      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(0));
   }
 }
