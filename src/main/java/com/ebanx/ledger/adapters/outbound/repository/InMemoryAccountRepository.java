@@ -49,8 +49,8 @@ public class InMemoryAccountRepository {
     Account updatedOrigin = new Account(originId, origin.balance() - amount);
     store.put(originId, updatedOrigin);
 
-    Account destination = store.compute(destinationId, (k, v) ->
-        v == null ? new Account(destinationId, amount) : new Account(destinationId, v.balance() + amount));
+    Account destination = store.compute(destinationId, (key, value) ->
+        value == null ? new Account(destinationId, amount) : new Account(destinationId, value.balance() + amount));
 
     return new TransferResponse(updatedOrigin, destination);
   }
