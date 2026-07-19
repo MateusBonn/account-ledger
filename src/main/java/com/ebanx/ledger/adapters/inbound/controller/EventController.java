@@ -33,8 +33,8 @@ public class EventController {
   }
 
   @PostMapping("/reset")
-  public ResponseEntity<Void> reset() {
+  public ResponseEntity<String> reset() {
     accountService.reset();
-    return ResponseEntity.status(HttpStatus.OK).build();
+    return ResponseEntity.status(HttpStatus.OK).body("OK");
   }
 }
