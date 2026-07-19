@@ -20,8 +20,8 @@ public class DepositStrategy implements EventStrategy {
 
   @Override
   public EventResponse execute(EventRequest request) {
-    Account dest = repository.deposit(request.destination(), request.amount());
-    return EventResponse.fromDeposit(dest);
+    Account deposit = repository.deposit(request.destination(), request.amount());
+    return EventResponse.fromDeposit(deposit);
   }
 
 

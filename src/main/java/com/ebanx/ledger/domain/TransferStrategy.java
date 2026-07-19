@@ -21,9 +21,9 @@ public class TransferStrategy implements EventStrategy {
 
   @Override
   public EventResponse execute(EventRequest request) {
-    var res = repository.transfer(request.origin(), request.destination(), request.amount());
-    if (res == null) throw new AccountNotFoundException(request.origin());
-    return EventResponse.fromTransfer(res.origin(), res.destination());
+    var transfer = repository.transfer(request.origin(), request.destination(), request.amount());
+    if (transfer == null) throw new AccountNotFoundException(request.origin());
+    return EventResponse.fromTransfer(transfer.origin(), transfer.destination());
   }
 
 
