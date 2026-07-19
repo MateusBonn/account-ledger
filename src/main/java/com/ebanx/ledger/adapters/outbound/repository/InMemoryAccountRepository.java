@@ -18,10 +18,6 @@ public class InMemoryAccountRepository {
     return Optional.ofNullable(store.get(id));
   }
 
-  public void save(Account account) {
-    store.put(account.id(), account);
-  }
-
   public void clear() {
     store.clear();
   }

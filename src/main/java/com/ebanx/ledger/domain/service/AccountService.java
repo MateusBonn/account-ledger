@@ -40,4 +40,7 @@ public class AccountService {
     return strategy.execute(request);
   }
 
+  public void reset() {
+    repository.clear();
+  }
 }
