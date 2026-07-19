@@ -1,5 +1,8 @@
 package com.ebanx.ledger.adapters.inbound.controller;
 
+import com.ebanx.ledger.adapters.inbound.dto.request.EventRequest;
+import com.ebanx.ledger.adapters.inbound.dto.response.DepositResponse;
+import com.ebanx.ledger.domain.service.AccountService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,13 +13,22 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/v1/balance")
+@RequestMapping("/api/v1/event")
 public class EventController {
 
-  @PostMapping("/event")
-  public ResponseEntity<Void> handleEvent(@RequestBody Map<String, Object> payload) {
-    // Todo: Substituir por lógica de roteamento de eventos na Fase 4.
-    // Utilizando Map temporariamente para evitar a criação prematura de DTOs antes da modelagem do domínio.
-    return ResponseEntity.status(HttpStatus.CREATED).build();
+  private final AccountService accountService;
+
+  public EventController(AccountService accountService) {
+    this.accountService = accountService;
+  }
+
+  @PostMapping
+  public ResponseEntity<?> handleEvent(@RequestBody EventRequest payload) {
+    if ("deposit".equals(payload.type())) {
+      DepositResponse response = accountService.executeDeposit(payload);
+      return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(0);
   }
 }

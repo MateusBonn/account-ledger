@@ -23,4 +23,13 @@ public class InMemoryAccountRepository {
   public void clear() {
     store.clear();
   }
+
+  public Account deposit(String id, int amount) {
+    return store.compute(id, (key, currentAccount) -> {
+      if (currentAccount == null) {
+        return new Account(id, amount);
+      }
+      return new Account(id, currentAccount.balance() + amount);
+    });
+  }
 }
