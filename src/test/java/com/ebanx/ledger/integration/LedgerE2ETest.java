@@ -1,7 +1,7 @@
 package com.ebanx.ledger.integration;
 
-import com.ebanx.ledger.adapters.inbound.dto.request.EventRequest;
-import com.ebanx.ledger.adapters.outbound.repository.InMemoryAccountRepository;
+import com.ebanx.ledger.dto.request.EventRequest;
+import com.ebanx.ledger.repository.InMemoryAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
